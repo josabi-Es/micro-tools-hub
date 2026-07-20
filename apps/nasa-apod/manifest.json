@@ -2,7 +2,7 @@
   "name": "nasa-apod",
   "description": "Returns NASA's Astronomy Picture of the Day (APOD)",
   "version": "0.1.0",
-  "docker_repo": "tuusuario/nasa-apod",
+  "docker_repo": "salillas/nasa-apod",
   "endpoint": { "path": "/apod", "method": "GET" },
   "tags": ["nasa", "space"]
 }
