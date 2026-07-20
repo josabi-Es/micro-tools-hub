@@ -1,0 +1,20 @@
+[project]
+name = "nasa-apod"
+version = "0.1.0"
+description = "Returns NASA's Astronomy Picture of the Day (APOD)"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "httpx",
+    "pydantic",
+]
+
+[dependency-groups]
+dev = ["pytest", "ruff"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
