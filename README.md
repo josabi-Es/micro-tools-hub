@@ -1,6 +1,7 @@
 # 🧰 micro-tools-hub
 
 ![CI](https://github.com/josabi-Es/micro-tools-hub/actions/workflows/ci.yml/badge.svg)
+![CD](https://github.com/josabi-Es/micro-tools-hub/actions/workflows/cd-image.yml/badge.svg)
 
 <img src="https://skillicons.dev/icons?i=python,fastapi,docker,git,githubactions&theme=light" />
 
@@ -11,15 +12,11 @@ Browse `apps/` to see what tools exist and pull the image you need.
 ## 🔁 How a change ships
 
 ```mermaid
-flowchart LR
-    A["💻 feat / fix commit"] --> B["🔀 Pull Request → main"]
-    B --> C["🧹 ruff + 🧪 pytest"]
-    C --> D["🔢 auto version bump"]
-    D --> E["✅ merge"]
-    E --> F["🐳 docker build"]
-    F --> G["📏 size check < 500MB"]
-    G --> H["📦 push to Docker Hub"]
-    H --> I["⬇️ docker pull & run"]
+flowchart TD
+    Apps["📦 apps/nasa-apod, apps/…"] -.->|"curl / Postman"| Local["🧪 local test"]
+    Apps -->|"CI: ruff + pytest + version "| PR["🔀 Pull Request → main"]
+    PR -->|"build, size check, push"| Hub["🐋 Docker Hub"]
+    Hub -->|"docker pull"| You["⬇️ you / anyone"]
 ```
 
 - Write commits with a [Conventional Commit](https://www.conventionalcommits.org/) prefix (`fix`, `feat`, `feat!`) — that's the only signal the pipeline needs.
