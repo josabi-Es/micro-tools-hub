@@ -1,8 +1,0 @@
-{
-  "name": "{{cookiecutter.app_name}}",
-  "description": "{{cookiecutter.description}}",
-  "version": "0.1.0",
-  "docker_repo": "salillas/{{cookiecutter.app_name}}",
-  "endpoint": { "path": "/", "method": "GET" },
-  "tags": []
-}
