@@ -61,3 +61,32 @@ jobs:
         run: |
           uv sync
           uv run pytest -v
+
+  bump-version:
+    needs: detect-changes
+    if: github.event_name == 'pull_request' && github.base_ref == 'main' && needs.detect-changes.outputs.has_changes == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: bump versions for changed apps
+        run: |
+          for app in $(echo '${{ needs.detect-changes.outputs.matrix }}' | jq -r '.[]'); do
+            git log "${{ github.event.pull_request.base.sha }}..HEAD" --pretty=%s -- "$app" \
+              | python versioning/auto_version.py "$app"
+          done
+      - name: commit bump
+        run: |
+          if git diff --quiet; then
+            echo "No version bump needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add apps/*/manifest.json
+          git commit -m "chore: bump app versions [skip ci]"
+          git push origin HEAD:${{ github.head_ref }}
