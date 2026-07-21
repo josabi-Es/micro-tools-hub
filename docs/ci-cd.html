@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CI/CD — micro-tools-hub</title>
+<style>
+  :root {
+    --color-teal: #00ffc8;
+    --color-red: #ff5470;
+    --bg: #0b0f14;
+    --fg: #e6f6f1;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 100px 20px 60px;
+    margin: 0;
+  }
+  h1 { font-size: 1.1rem; font-weight: 600; opacity: .8; margin-bottom: 70px; }
+
+  .diagram {
+    position: relative;
+    width: 880px;
+  }
+
+  .spine {
+    display: grid;
+    grid-template-columns: 64px 140px 64px 140px 64px 140px 64px 140px 64px;
+    align-items: center;
+  }
+  .nodo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-teal);
+    background: rgba(0, 255, 200, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    position: relative;
+  }
+  .nodo.decision { border-style: dashed; }
+  .nodo img { width: 40px; height: 40px; }
+  .nodo span.label {
+    position: absolute;
+    top: 72px;
+    width: 120px;
+    text-align: center;
+    font-size: .75rem;
+    opacity: .8;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .link {
+    border-top: 1.5px solid var(--color-teal);
+    position: relative;
+  }
+  .link span.label {
+    position: absolute;
+    top: -22px;
+    width: 100%;
+    text-align: center;
+    font-size: .7rem;
+    color: var(--color-teal);
+    white-space: nowrap;
+  }
+  .arrow-r::after, .arrow-l::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+  }
+  .arrow-r::after { right: -1px; border-left: 6px solid var(--color-teal); }
+  .arrow-l::before { left: -1px; border-right: 6px solid var(--color-red); }
+  .dot {
+    position: absolute;
+    top: -4px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-teal);
+    animation: travel 1.8s linear infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  .dot.red { background: var(--color-red); }
+  .dot.rev { animation-direction: reverse; }
+  @keyframes travel {
+    from { left: 0%; }
+    to   { left: 100%; }
+  }
+
+  .link-dual {
+    position: relative;
+    height: 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 26px;
+  }
+  .link-row { border-top: 1.5px solid; position: relative; }
+  .link-row.request { border-color: var(--color-red); }
+  .link-row.pull { border-color: var(--color-teal); }
+  .link-row .label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: .65rem;
+    white-space: nowrap;
+  }
+  .link-row.request .label { top: -18px; color: var(--color-red); }
+  .link-row.pull .label { bottom: -18px; color: var(--color-teal); }
+
+  .fan {
+    position: absolute;
+    top: -78px;
+    left: 0;
+    width: 880px;
+    height: 78px;
+  }
+  .fan text { font-size: 11px; fill: var(--color-red); }
+</style>
+</head>
+<body>
+
+<h1>micro-tools-hub · CI/CD flow</h1>
+
+<div class="diagram">
+
+  <svg class="fan" viewBox="0 0 880 78">
+    <defs>
+      <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 z" fill="var(--color-red)"/>
+      </marker>
+    </defs>
+    <path id="noPath" d="M236,78 Q134,0 32,78" fill="none" stroke="var(--color-red)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+    <circle r="3" fill="var(--color-red)">
+      <animateMotion dur="1.8s" repeatCount="indefinite" path="M236,78 Q134,0 32,78"/>
+    </circle>
+    <text x="134" y="20" text-anchor="middle">&lt; test failed</text>
+  </svg>
+
+  <div class="spine">
+    <div class="nodo">👤
+      <span class="label">User</span>
+    </div>
+    <div class="link arrow-r">
+      <span class="label">push to dev</span>
+      <span class="dot" style="--delay:0s"></span>
+    </div>
+    <div class="nodo decision">
+      <img src="https://skillicons.dev/icons?i=githubactions" alt="GitHub Actions">
+      <span class="label">GitHub Actions CI</span>
+    </div>
+    <div class="link arrow-r">
+      <span class="label">merge into main</span>
+      <span class="dot" style="--delay:.6s"></span>
+    </div>
+    <div class="nodo">
+      <img src="https://skillicons.dev/icons?i=githubactions" alt="GitHub Actions">
+      <span class="label">Git Actions CD</span>
+    </div>
+    <div class="link arrow-r">
+      <span class="label">build and push</span>
+      <span class="dot" style="--delay:1.2s"></span>
+    </div>
+    <div class="nodo">
+      <img src="https://skillicons.dev/icons?i=docker" alt="Docker">
+      <span class="label">Docker Hub</span>
+    </div>
+    <div class="link-dual">
+      <div class="link-row request arrow-l">
+        <span class="label">&lt; check latest</span>
+        <span class="dot red rev" style="--delay:0s"></span>
+      </div>
+      <div class="link-row pull arrow-r">
+        <span class="label">pull image &gt;</span>
+        <span class="dot" style="--delay:.4s"></span>
+      </div>
+    </div>
+    <div class="nodo">🌍
+      <span class="label">External App</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
