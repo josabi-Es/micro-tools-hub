@@ -11,17 +11,12 @@ Browse `apps/` to see what tools exist and pull the image you need.
 
 ## 🔁 How a change ships
 
-```mermaid
-flowchart TD
-    Apps["📦 apps/nasa-apod, apps/…"] -.->|"curl / Postman"| Local["🧪 local test"]
-    Apps -->|"CI: ruff + pytest + version "| PR["🔀 Pull Request → main"]
-    PR -->|"build, size check, push"| Hub["🐋 Docker Hub"]
-    Hub -->|"docker pull"| You["⬇️ you / anyone"]
-```
+<img src="docs/ci-cd.png" alt="CI/CD flow: User pushes to dev, Git Actions CI tests, merges into main, Git Actions CD builds and pushes to Docker Hub, External App pulls the image" width="100%">
 
 - Write commits with a [Conventional Commit](https://www.conventionalcommits.org/) prefix (`fix`, `feat`, `feat!`) — that's the only signal the pipeline needs.
 - Open the PR into `main`: CI lints and tests the apps you touched, then bumps their `version` in `manifest.json` automatically (patch/minor/major from your commits — see `versioning/`).
 - Merge: the image is built, checked for size, and pushed to Docker Hub tagged `latest` and with that exact version. That's the whole release loop.
+
 
 ## 📁 Structure
 
