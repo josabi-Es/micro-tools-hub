@@ -11,7 +11,7 @@ Browse `apps/` to see what tools exist and pull the image you need.
 
 ## 🔁 How a change ships
 
-<img src="docs/ci-cd.svg" alt="CI/CD flow: User pushes to dev, GitHub Actions runs CI, merges into main, Git Actions CD builds and pushes to Docker Hub, External App pulls the image" width="100%">
+<img src="docs/ci-cd.png" alt="CI/CD flow: User pushes to dev, Git Actions CI tests, merges into main, Git Actions CD builds and pushes to Docker Hub, External App pulls the image" width="100%">
 
 - Write commits with a [Conventional Commit](https://www.conventionalcommits.org/) prefix (`fix`, `feat`, `feat!`) — that's the only signal the pipeline needs.
 - Open the PR into `main`: CI lints and tests the apps you touched, then bumps their `version` in `manifest.json` automatically (patch/minor/major from your commits — see `versioning/`).
