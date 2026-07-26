@@ -45,3 +45,7 @@ Fill in the generated `manifest.json`, write your endpoint logic in `main.py`, t
 ## 🌿 Branching
 
 Work happens on `dev`; `main` reflects what's been released. See `spec/constitution/` for the full rationale and `spec/features/` for what's planned per version.
+
+## 🧩 Want this for your own tools?
+
+Fork it. The template, versioning, and CI/CD pipeline don't care what your apps do, so just drop in your own and keep the same workflow. It's meant for one person running their own tools (personal APIs, side projects, homelab stuff), not a multi-tenant platform.
