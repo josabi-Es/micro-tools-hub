@@ -1,0 +1,8 @@
+{
+  "name": "orm-reference-api",
+  "description": "Level-by-level PostgreSQL explorer API built on SQLAlchemy reflection",
+  "version": "0.1.0",
+  "docker_repo": "salillas/orm-reference-api",
+  "endpoint": { "path": "/health", "method": "GET" },
+  "tags": ["orm", "sqlalchemy", "postgres", "reflection", "explorer"]
+}
