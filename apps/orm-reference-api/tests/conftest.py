@@ -15,9 +15,7 @@ def setup_db():
 
 @pytest.fixture()
 def db_session(setup_db):
-    testing_session_local = sessionmaker(
-        autocommit=False, autoflush=False, bind=setup_db
-    )
+    testing_session_local = sessionmaker(autocommit=False, autoflush=False, bind=setup_db)
     session = testing_session_local()
     yield session
     session.close()

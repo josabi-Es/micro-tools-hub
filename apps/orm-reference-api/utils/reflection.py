@@ -1,4 +1,5 @@
 """Reads the structure of whatever database the .env points to."""
+
 from sqlalchemy import MetaData, Table, inspect, text
 
 metadata = MetaData()
@@ -10,9 +11,13 @@ def get_server_info(engine) -> dict:
     with engine.connect() as conn:
         version = conn.execute(text("SELECT version()")).scalar()
         # pg_database is shared by the whole server, so one connection sees them all
-        databases = conn.execute(
-            text("SELECT datname FROM pg_database WHERE datistemplate = false ORDER BY datname")
-        ).scalars().all()
+        databases = (
+            conn.execute(
+                text("SELECT datname FROM pg_database WHERE datistemplate = false ORDER BY datname")
+            )
+            .scalars()
+            .all()
+        )
     return {"version": version, "databases": list(databases)}
 
 
@@ -35,8 +40,7 @@ def get_table_detail(engine, schema: str, table: str) -> dict:
     """Columns, primary key and foreign keys of one table."""
     inspector = inspect(engine)
     columns = [
-        {**col, "type": str(col["type"])}
-        for col in inspector.get_columns(table, schema=schema)
+        {**col, "type": str(col["type"])} for col in inspector.get_columns(table, schema=schema)
     ]
     return {
         "columns": columns,

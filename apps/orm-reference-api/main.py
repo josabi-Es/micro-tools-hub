@@ -128,9 +128,7 @@ def create_table_row(table_name: str, body: dict, db: Session = Depends(get_db))
         raise HTTPException(status_code=400, detail=f"Unknown columns: {sorted(unknown_keys)}")
 
     try:
-        created = db.execute(
-            table.insert().values(**body).returning(*table.columns)
-        ).one()
+        created = db.execute(table.insert().values(**body).returning(*table.columns)).one()
         db.commit()
     except IntegrityError as exc:
         db.rollback()

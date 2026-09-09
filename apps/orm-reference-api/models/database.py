@@ -26,10 +26,7 @@ def init_db():
     global engine, SessionLocal
     if engine is None:
         logger.info(f"Connecting to PostgreSQL at {POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}")
-        engine = create_engine(
-            DATABASE_URL,
-            connect_args={"connect_timeout": 5}
-        )
+        engine = create_engine(DATABASE_URL, connect_args={"connect_timeout": 5})
         SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
         logger.info("Database engine initialized")
 
