@@ -1,0 +1,26 @@
+[project]
+name = "orm-reference-api"
+version = "0.1.0"
+description = "Browse a PostgreSQL database level by level over HTTP"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "psycopg[binary]>=3.3.5",
+    "sqlalchemy>=2.0.52",
+    "uvicorn",
+    "rich",
+    "python-dotenv",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "httpx",
+    "ruff",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
