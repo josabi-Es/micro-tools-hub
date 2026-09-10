@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
     paths: ["apps/**"]
+  pull_request:
+    branches: [main]
+    paths: ["apps/**"]
+    types: [closed]
+  workflow_dispatch:
 
 jobs:
   detect-changes:
