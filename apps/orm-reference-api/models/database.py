@@ -1,9 +1,9 @@
 import os
 
 from dotenv import load_dotenv
-from utils.logger import logger
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from utils.logger import logger
 
 load_dotenv()
 
