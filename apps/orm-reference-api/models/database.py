@@ -1,7 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from logger_config import logger
+from utils.logger import logger
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 

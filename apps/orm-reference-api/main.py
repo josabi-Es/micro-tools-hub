@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query
-from logger_config import logger
+from utils.logger import logger
 from models.database import POSTGRES_DB, POSTGRES_HOST, POSTGRES_PORT, get_db, get_engine
 from sqlalchemy import select, text
 from sqlalchemy.exc import IntegrityError
